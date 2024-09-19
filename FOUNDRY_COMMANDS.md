@@ -1,35 +1,38 @@
 # Foundry
 
-# Install foundry 
+## Install foundry 
+```shell
 In the Terminal - curl -L https://foundry.paradigm.xyz | bash
+```
 
-# Check foundry and anvil version 
+## Check foundry and anvil version 
+```shell
 forge --version
-
 anvil --version
-
 cast --version
-
 chisel --version
-
-# To update the foundry 
+```
+## To update the foundry 
+```shell
 foundryup 
-
-# To create new foundry project 
+```
+## To create new foundry project 
+```shell
 forge init
-
+```
 NOTE: Use --force for non empty directory
 
-# To compile code 
+## To compile code 
+```shell
 forge build 
 
 forge compile
-
-# To test the contract using anvil
-## Command to start anvil
+```
+## To test the contract using anvil
+### Command to start anvil
 anvil
 
-## Setup Metmask 
+### Setup Metmask 
 Once anvil server is started, 
 - Setup the Localhost network in the metamask 
     - Name: LocalHostAnvil
@@ -39,7 +42,7 @@ Once anvil server is started,
 - Copy over the dummy private keys for the accounts from terminal (anvil) and add the accounts to Metamask. 
 - You should get 1000 ETH
 
-### Anvil Test Account Info
+#### Anvil Test Account Info
 
 Available Accounts
 ==================
@@ -69,28 +72,36 @@ Private Keys
 (8) 0xdbda1821b80551c9d65939329250298aa3472ba22feea921c0cf5d620ea67b97
 (9) 0x2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6
 
-# Deploy Contract to Localhost
+## Deploy Contract to Localhost
 
-## Without the Deploy Script
-### Preferred
+### Without the Deploy Script
+#### Preferred
+```shell
 forge create SimpleStorage --rpc-url http://127.0.0.1:8545 --interactive
+```
 NOTE: 
 - This will ask for private key - enter one from above
 - The rpc-url part is not needed for anvil
 
-### Other way (Not preferred, we should not put private-key in terminal like this.)
+#### Other way (Not preferred, we should not put private-key in terminal like this.)
+```shell
 forge create SimpleStorage --rpc-url http://127.0.0.1:8545 --private-key <privatekey>
+```
 
-## With the deploy script (DeploySimpleStorage.s.sol)
-### This will run the script on a temporary anvil blockchain (and closes it once the script execution completed)
+### With the deploy script (DeploySimpleStorage.s.sol)
+#### This will run the script on a temporary anvil blockchain (and closes it once the script execution completed)
+```shell
 forge script script/DeploySimpleStorage.s.sol
+```
 
-### Pass the rpc-url to deploy to local anvil blockchain 
+#### Pass the rpc-url to deploy to local anvil blockchain 
 
-#### This command will ONLY simulate
+##### This command will ONLY simulate
+```shell
 forge script script/DeploySimpleStorage.s.sol --rpc-url http://127.0.0.1:8545
-
-#### This command will DEPLOY to local blockchain (--broadcast and --private-key)
+```
+##### This command will DEPLOY to local blockchain (--broadcast and --private-key)
+```shell
 forge script script/DeploySimpleStorage.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
-
+```
 This will say "Onchain execution completed"
