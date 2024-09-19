@@ -105,3 +105,20 @@ forge script script/DeploySimpleStorage.s.sol --rpc-url http://127.0.0.1:8545
 forge script script/DeploySimpleStorage.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
 ```
 This will say "Onchain execution completed"
+
+##### Using .env file for simplifying the command (ONLY DEV Purposes, NEVER use .env file for PRODUCTION or CONTROLLED environments)
+
+###### Step 1: Create .env file 
+Refer to the .env file in the project for reference. 
+
+###### Step 2: Load the .env file in the terminal
+```shell
+source .env
+```
+
+###### Step 3: Run the command 
+```shell
+echo $RPC_URL
+echo $PRIVATE_KEY
+forge script script/DeploySimpleStorage.s.sol --rpc-url $RPC_URL --broadcast --private-key $PRIVATE_KEY
+```
