@@ -28,6 +28,12 @@ forge build
 
 forge compile
 ```
+
+## To format the code
+```shell
+forge fmt
+```
+
 ## To test the contract using anvil
 ### Command to start anvil
 anvil
@@ -121,4 +127,34 @@ source .env
 echo $RPC_URL
 echo $PRIVATE_KEY
 forge script script/DeploySimpleStorage.s.sol --rpc-url $RPC_URL --broadcast --private-key $PRIVATE_KEY
+```
+
+## Interact with the Locally Deployed Contract
+### Send Transactions
+For this, we use the `cast send` command. 
+```shell
+cast send <contract-address> "<function definition>" <parameter(s) to be sent to the function> --rpc-url $RPC_URL --private-key $PRIVATE_KEY 
+```
+***** Example
+```shell
+cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 "store(uint256)" 456 --rpc-url $RPC_URL --private-key $PRIVATE_KEY 
+```
+
+### Read Transactions 
+For this, we use the `cast call` command. Thie command's response is in hex format. 
+```shell
+cast call <contract-address> "<function definition>" <parameter(s) to be sent to the function> 
+```
+***** Example
+```shell
+cast call 0x5FbDB2315678afecb367f032d93F642f64180aa3 "retrieve()" 
+```
+
+To convert the response from hex format to decimal format, we will use `--to-base` command
+```shell
+cast --to-base <hex response from call command> dec
+```
+***** Example
+```shell
+cast --to-base 0x00000000000000000000000000000000000000000000000000000000000001c8 dec
 ```
