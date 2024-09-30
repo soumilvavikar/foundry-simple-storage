@@ -1,28 +1,36 @@
 # Foundry
 
-## Install foundry 
+## Install foundry
+
 ```shell
 In the Terminal - curl -L https://foundry.paradigm.xyz | bash
 ```
 
-## Check foundry and anvil version 
+## Check foundry and anvil version
+
 ```shell
 forge --version
 anvil --version
 cast --version
 chisel --version
 ```
-## To update the foundry 
+
+## To update the foundry
+
 ```shell
 foundryup 
 ```
-## To create new foundry project 
+
+## To create new foundry project
+
 ```shell
 forge init
 ```
+
 NOTE: Use --force for non empty directory
 
-## To compile code 
+## To compile code
+
 ```shell
 forge build 
 
@@ -30,28 +38,32 @@ forge compile
 ```
 
 ## To format the code
+
 ```shell
 forge fmt
 ```
 
 ## To test the contract using anvil
+
 ### Command to start anvil
+
 anvil
 
-### Setup Metmask 
-Once anvil server is started, 
-- Setup the Localhost network in the metamask 
-    - Name: LocalHostAnvil
-    - URL: http://127.0.0.1:8545
-    - Chain Id: 31337
-    - Currency: ETH
-- Copy over the dummy private keys for the accounts from terminal (anvil) and add the accounts to Metamask. 
+### Setup Metmask
+
+Once anvil server is started,
+
+- Setup the Localhost network in the metamask
+  - Name: LocalHostAnvil
+  - URL: <http://127.0.0.1:8545>
+  - Chain Id: 31337
+  - Currency: ETH
+- Copy over the dummy private keys for the accounts from terminal (anvil) and add the accounts to Metamask.
 - You should get 1000 ETH
 
 #### Anvil Test Account Info
 
-Available Accounts
-==================
+**Available Accounts**
 
 (0) 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 (10000.000000000000000000 ETH)
 (1) 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 (10000.000000000000000000 ETH)
@@ -64,8 +76,7 @@ Available Accounts
 (8) 0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f (10000.000000000000000000 ETH)
 (9) 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720 (10000.000000000000000000 ETH)
 
-Private Keys
-==================
+**Private Keys**
 
 (0) 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
 (1) 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d
@@ -81,48 +92,62 @@ Private Keys
 ## Deploy Contract to Localhost
 
 ### Without the Deploy Script
+
 #### Preferred
+
 ```shell
 forge create SimpleStorage --rpc-url http://127.0.0.1:8545 --interactive
 ```
-NOTE: 
+
+NOTE:
+
 - This will ask for private key - enter one from above
 - The rpc-url part is not needed for anvil
 
 #### Other way (Not preferred, we should not put private-key in terminal like this.)
+
 ```shell
 forge create SimpleStorage --rpc-url http://127.0.0.1:8545 --private-key <privatekey>
 ```
 
 ### With the deploy script (DeploySimpleStorage.s.sol)
+
 #### This will run the script on a temporary anvil blockchain (and closes it once the script execution completed)
+
 ```shell
 forge script script/DeploySimpleStorage.s.sol
 ```
 
-#### Pass the rpc-url to deploy to local anvil blockchain 
+#### Pass the rpc-url to deploy to local anvil blockchain
 
 ##### This command will ONLY simulate
+
 ```shell
 forge script script/DeploySimpleStorage.s.sol --rpc-url http://127.0.0.1:8545
 ```
+
 ##### This command will DEPLOY to local blockchain (--broadcast and --private-key)
+
 ```shell
 forge script script/DeploySimpleStorage.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
 ```
+
 This will say "Onchain execution completed"
 
 ##### Using .env file for simplifying the command (ONLY DEV Purposes, NEVER use .env file for PRODUCTION or CONTROLLED environments)
 
-###### Step 1: Create .env file 
-Refer to the .env file in the project for reference. 
+###### Step 1: Create .env file
+
+Refer to the .env file in the project for reference.
 
 ###### Step 2: Load the .env file in the terminal
+
 ```shell
 source .env
 ```
 
-###### Step 3: Run the command 
+###### Step 3: Run the command
+
 ```shell
 echo $RPC_URL
 echo $PRIVATE_KEY
@@ -130,31 +155,43 @@ forge script script/DeploySimpleStorage.s.sol --rpc-url $RPC_URL --broadcast --p
 ```
 
 ## Interact with the Locally Deployed Contract
+
 ### Send Transactions
-For this, we use the `cast send` command. 
+
+For this, we use the `cast send` command.
+
 ```shell
 cast send <contract-address> "<function definition>" <parameter(s) to be sent to the function> --rpc-url $RPC_URL --private-key $PRIVATE_KEY 
 ```
+
 ***** Example
+
 ```shell
 cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 "store(uint256)" 456 --rpc-url $RPC_URL --private-key $PRIVATE_KEY 
 ```
 
-### Read Transactions 
-For this, we use the `cast call` command. Thie command's response is in hex format. 
+### Read Transactions
+
+For this, we use the `cast call` command. Thie command's response is in hex format.
+
 ```shell
 cast call <contract-address> "<function definition>" <parameter(s) to be sent to the function> 
 ```
+
 ***** Example
+
 ```shell
 cast call 0x5FbDB2315678afecb367f032d93F642f64180aa3 "retrieve()" 
 ```
 
 To convert the response from hex format to decimal format, we will use `--to-base` command
+
 ```shell
 cast --to-base <hex response from call command> dec
 ```
+
 ***** Example
+
 ```shell
 cast --to-base 0x00000000000000000000000000000000000000000000000000000000000001c8 dec
 ```
